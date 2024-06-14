@@ -1,0 +1,33 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - '**'  # Triggers on push to any branch
+  pull_request:
+    branches:
+      - '**'  # Triggers on pull requests to any branch
+  schedule:
+    - cron: "*/2 * * * *"  # Triggers every 2 minutes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+    - name: Run linter
+      run: npm run lint
